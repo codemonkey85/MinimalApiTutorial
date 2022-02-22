@@ -10,6 +10,7 @@ builder.Services.AddDbContextFactory<AppDbContext>
 (
     options => _ = appSettings.DbProvider switch
     {
+        null or "" => throw new Exception("No provider found"),
         "sqlite" => options.UseSqlite(config.GetConnectionString("sqlite")),
         "sqlserver" => options.UseSqlServer(config.GetConnectionString("sqlserver")),
         _ => throw new Exception($"Unsupported provider: {appSettings.DbProvider}")
